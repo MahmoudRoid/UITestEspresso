@@ -1,5 +1,6 @@
 package mahmoudroid.uitestespresso
 
+import androidx.lifecycle.Lifecycle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -26,7 +27,7 @@ class SecondaryActivityTest{
             .check(matches(isDisplayed()))
 
         // Notice this does not effect the next test
-        //activityRule.scenario.moveToState(Lifecycle.State.DESTROYED)
+       // activityRule.scenario.moveToState(Lifecycle.State.DESTROYED)
     }
 
     // Visibility
