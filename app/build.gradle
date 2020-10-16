@@ -8,11 +8,7 @@ android {
 
     defaultConfig {
         applicationId "mahmoudroid.uitestespresso"
-<<<<<<< HEAD
-        minSdkVersion 19
-=======
         minSdkVersion 17
->>>>>>> simple_activity
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
