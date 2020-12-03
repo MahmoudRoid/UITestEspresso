@@ -11,17 +11,18 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import kotlinx.android.synthetic.main.fragment_movie_detail.view.*
 import mahmoudroid.uitestespresso.R
 import mahmoudroid.uitestespresso.data.DummyMovies.THE_RUNDOWN
+import mahmoudroid.uitestespresso.factory.MovieFragmentFactory
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
-class eMovieDetailFragmentTest{
+class MovieDetailFragmentTest{
 
     @Test
     fun test_isMovieDataVisible() {
 
         val movie = THE_RUNDOWN
-        val fragmentFactory = FragmentFactory()
+        val fragmentFactory = MovieFragmentFactory()
         val bundle = Bundle()
         bundle.putInt("movie_id",movie.id)
 
