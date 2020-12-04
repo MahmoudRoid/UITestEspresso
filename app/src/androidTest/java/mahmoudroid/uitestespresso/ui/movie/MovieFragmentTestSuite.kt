@@ -8,6 +8,7 @@ import org.junit.runners.Suite
 @Suite.SuiteClasses(
     MovieDetailFragmentTest::class,
     DirectorsFragmentTest::class,
-    StarActorsFragmentTest::class
+    StarActorsFragmentTest::class,
+    FragmentNavigationTest::class
 )
 class MovieFragmentTestSuite
