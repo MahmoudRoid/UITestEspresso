@@ -2,22 +2,29 @@ package mahmoudroid.uitestespresso
 
 
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.Instrumentation
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Bundle
 import android.provider.MediaStore
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.platform.app.InstrumentationRegistry
+import mahmoudroid.uitestespresso.ImageViewHasDrawableMatcher.hasDrawable
+import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
@@ -32,28 +39,28 @@ class MainActivityTest{
 
     @Test
     fun test_ValidateAndStubIntent() {
+        // GIVEN
+        val activityResult = createImageCaptureActivityResultStub()
+        val expectedIntent: Matcher<Intent> = hasAction(MediaStore.ACTION_IMAGE_CAPTURE)
+        intending(expectedIntent).respondWith(activityResult)
 
-        val expectedIntent: Matcher<Intent> = allOf(
-            hasAction(Intent.ACTION_PICK),
-            hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        )
-        val activityResult = createGalleryPickActivityResultStub() // fake activityresult
-        // click
-        onView(withId(R.id.button_open_gallery)).perform(click())
-        // check is image set to imageView??
-        intended(expectedIntent)
+        // Execute and Verify
+        onView(withId(R.id.image)).check(matches(not(hasDrawable()))) // custom matcher
+        onView(withId(R.id.button_launch_camera)).perform(click())
+        intended(expectedIntent) // check intent is executed or not
+        onView(withId(R.id.image)).check(matches(hasDrawable())) // check imageview has any drawable
     }
 
-    private fun createGalleryPickActivityResultStub(): Instrumentation.ActivityResult {
-        val resources: Resources = InstrumentationRegistry.getInstrumentation().context.resources
-        val imageUri = Uri.parse(
-            ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
-                    resources.getResourcePackageName(R.drawable.ic_launcher_background) + '/' +
-                    resources.getResourceTypeName(R.drawable.ic_launcher_background) + '/' +
-                    resources.getResourceEntryName(R.drawable.ic_launcher_background)
+    private fun createImageCaptureActivityResultStub(): Instrumentation.ActivityResult? {
+        val bundle = Bundle()
+        bundle.putParcelable(
+            KEY_IMAGE_DATA, BitmapFactory.decodeResource(
+                intentsTestRule.getActivity().getResources(),
+                R.drawable.ic_launcher_background
+            )
         )
-        val resultIntent = Intent()
-        resultIntent.setData(imageUri)
-        return Instrumentation.ActivityResult(RESULT_OK, resultIntent)
+        val resultData = Intent()
+        resultData.putExtras(bundle)
+        return Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
     }
 }
