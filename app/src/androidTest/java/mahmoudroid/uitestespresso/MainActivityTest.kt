@@ -8,7 +8,6 @@ import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import mahmoudroid.uitestespresso.MainActivity.Companion.buildToastMessage
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -20,7 +19,7 @@ class MainActivityTest{
     fun test_showDialog_captureNameInput() {
         // GIVEN
         val activityScenatio = ActivityScenario.launch(MainActivity::class.java)
-        val text = "Tito"
+        val text = "Hello"
 
         onView(withId(R.id.text_name)).check(matches(withText("")))
         onView(withId(R.id.button_launch_dialog)).perform(click())
@@ -37,12 +36,9 @@ class MainActivityTest{
         onView(withText(R.string.text_ok)).perform(click())
         onView(withText(R.string.text_enter_name)).check((doesNotExist()))
 
+
         // check text view text
         onView(withId(R.id.text_name)).check(matches(withText(text)))
-
-        // Is toast displayed and is the message correct?
-        onView(withText(buildToastMessage(text))).inRoot(ToastMatcher())
-            .check(matches(isDisplayed()))
 
     }
 
