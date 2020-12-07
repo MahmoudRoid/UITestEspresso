@@ -40,6 +40,10 @@ android {
         }
     }
 
+    androidExtensions {
+        experimental = true
+    }
+    
 }
 
 dependencies {
@@ -60,9 +64,9 @@ dependencies {
 /*    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_test_espresso"
     implementation "androidx.test.espresso:espresso-idling-resource:$androidx_test_espresso"*/
 
-/*    // Mockk.io
+    // Mockk.io
     def mockk_version = "1.9.3"
-    androidTestImplementation "io.mockk:mockk-android:$mockk_version"*/
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 
     // androidx.test
     def androidx_test = "1.1.2"
