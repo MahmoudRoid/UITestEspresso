@@ -5,6 +5,7 @@ import com.bumptech.glide.request.RequestOptions
 import mahmoudroid.uitestespresso.data.source.MoviesDataSource
 import mahmoudroid.uitestespresso.ui.movie.DirectorsFragment
 import mahmoudroid.uitestespresso.ui.movie.MovieDetailFragment
+import mahmoudroid.uitestespresso.ui.movie.MovieListFragment
 import mahmoudroid.uitestespresso.ui.movie.StarActorsFragment
 
 class MovieFragmentFactory(
@@ -15,6 +16,14 @@ class MovieFragmentFactory(
     override fun instantiate(classLoader: ClassLoader, className: String) =
 
         when (className) {
+
+            MovieListFragment::class.java.name -> {
+                if (moviesDataSource != null) {
+                    MovieListFragment(moviesDataSource)
+                } else {
+                    super.instantiate(classLoader, className)
+                }
+            }
 
             MovieDetailFragment::class.java.name -> {
                 if (requestOptions != null
